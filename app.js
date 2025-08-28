@@ -1,6 +1,7 @@
 const express = require("express");
 const morgan = require("morgan");
 const cors = require("cors");
+const path = require("path");
 const app = express();
 // const Product = require("./models").productos;
 // const Usuarios = require("./models").usuarios;
@@ -37,6 +38,14 @@ app.use("/api/login", require("./routes/loginRoutes.js"));
 //       .json({ message: "Nombre de usuario o password incorrecto" });
 //   }
 // });
+
+// Servir archivos estáticos de la carpeta dist
+app.use(express.static(path.join(__dirname, "dist")));
+
+// Redirigir todas las rutas a index.html
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
+});
 
 // Ejemplo de función asincrónica con async/await
 function delay(ms) {
